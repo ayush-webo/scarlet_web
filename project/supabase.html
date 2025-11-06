@@ -1,0 +1,23 @@
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+  const SUPABASE_URL = 'https://zhsfxjpoppayrboheqmv.supabase.co'
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpoc2Z4anBvcHBheXJib2hlcW12Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE4OTY1NTAsImV4cCI6MjA3NzQ3MjU1MH0.792xVQeISbnljaKTeloLsU0eASdv_5n1C--0u3r-uc0'
+
+
+  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+
+  function showMessage(elId, msg, isError = false) {
+    const el = document.getElementById(elId)
+    if (!el) return
+    el.innerText = msg
+    el.style.color = isError ? 'crimson' : 'green'
+  }
+
+  async function getCurrentUser() {
+    const { data } = await supabase.auth.getUser()
+    return data?.user ?? null
+  }
+
+  
+</script>

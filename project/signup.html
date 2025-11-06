@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      width: 100%;
+      max-width: 400px;
+    }
+    h1 {
+      color: #333;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      color: #555;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e1e1e1;
+      border-radius: 5px;
+      font-size: 14px;
+      transition: border-color 0.3s;
+    }
+    input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    button:hover {
+      transform: translateY(-2px);
+    }
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .message {
+      padding: 12px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      display: none;
+    }
+    .message.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    .message.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    .message.show {
+      display: block;
+    }
+    .link {
+      text-align: center;
+      margin-top: 20px;
+      color: #666;
+    }
+    .link a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Create Account</h1>
+    <div id="message" class="message"></div>
+    
+    <form id="signupForm">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" required minlength="6">
+      </div>
+      
+      <button type="submit" id="submitBtn">Sign Up</button>
+    </form>
+    
+    <div class="link">
+      Already have an account? <a href="login.html">Log In</a>
+    </div>
+  </div>
+
+  <script>
+    // REPLACE THESE WITH YOUR SUPABASE CREDENTIALS
+    const SUPABASE_URL = 'https://zhsfxjpoppayrboheqmv.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpoc2Z4anBvcHBheXJib2hlcW12Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE4OTY1NTAsImV4cCI6MjA3NzQ3MjU1MH0.792xVQeISbnljaKTeloLsU0eASdv_5n1C--0u3r-uc0';
+    
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    const form = document.getElementById('signupForm');
+    const messageDiv = document.getElementById('message');
+    const submitBtn = document.getElementById('submitBtn');
+    
+    function showMessage(text, type) {
+      messageDiv.textContent = text;
+      messageDiv.className = `message ${type} show`;
+    }
+    
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const username = document.getElementById('username').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Creating Account...';
+      
+      try {
+        const { data, error } = await supabase.auth.signUp({
+          email: email,
+          password: password,
+          options: {
+            data: {
+              username: username
+            }
+          }
+        });
+        
+        if (error) throw error;
+        
+        showMessage('Success! Check your email for verification link.', 'success');
+        form.reset();
+        
+        setTimeout(() => {
+          window.location.href = 'login.html';
+        }, 3000);
+        
+      } catch (error) {
+        showMessage(error.message, 'error');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Sign Up';
+      }
+    });
+  </script>
+</body>
+</html>

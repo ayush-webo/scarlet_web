@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe Game</title>
+    <link rel="icon" href="https://i.ibb.co/M6KTWnf/pic.jpg">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>Tic Tac Toe Game</h1>
+    
+    <div class="modeSelect">
+        <h2>Select Game Mode</h2>
+        <div class="modeOptions">
+            <label>
+                <input type="radio" name="gameMode" value="human">
+                <span>👥 Two Players</span>
+            </label>
+            <label>
+                <input type="radio" name="gameMode" value="ai">
+                <span>🤖 Play vs AI</span>
+            </label>
+        </div>
+        <button class="startGameBtn">Start Game</button>
+    </div>
+    
+    <div class="scoreBoard">
+        <div class="scoreItem">
+            <span class="playerLabel">Player X</span>
+            <span class="xScore">0</span>
+        </div>
+        <div class="scoreItem">
+            <span class="playerLabel">Player O</span>
+            <span class="oScore">0</span>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div data-index="0" class="box"></div>
+        <div data-index="1" class="box"></div>
+        <div data-index="2" class="box"></div>
+        <div data-index="3" class="box"></div>
+        <div data-index="4" class="box"></div>
+        <div data-index="5" class="box"></div>
+        <div data-index="6" class="box"></div>
+        <div data-index="7" class="box"></div>
+        <div data-index="8" class="box"></div>
+    </div>
+    
+    <div class="status"></div>
+    <button class="restartBtn">Restart 🔁</button>
+
+    <script src="index.js"></script>
+</body>
+
+</html>

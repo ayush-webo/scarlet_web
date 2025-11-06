@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Samurai Fighter - 2 Player Fighting Game</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Press Start 2P', cursive;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    #gameContainer {
+      position: relative;
+      display: inline-block;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    canvas {
+      display: block;
+      border-radius: 10px;
+    }
+
+    #ui {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      padding: 20px;
+      gap: 20px;
+    }
+
+    .healthBarContainer {
+      position: relative;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .playerName {
+      color: white;
+      font-size: 12px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    .healthBarBg {
+      height: 30px;
+      background-color: #333;
+      border: 4px solid white;
+      border-radius: 5px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .healthBar {
+      position: relative;
+      height: 100%;
+      background: linear-gradient(90deg, #4ade80 0%, #22c55e 100%);
+      transition: width 0.3s ease;
+    }
+
+    .healthBar.low {
+      background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%);
+    }
+
+    .healthBar.critical {
+      background: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);
+      animation: pulse 0.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    #timer {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      min-width: 100px;
+      height: 70px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      border: 4px solid white;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    #timer span {
+      font-size: 12px;
+      opacity: 0.7;
+    }
+
+    #timerValue {
+      font-size: 24px;
+      margin-top: 5px;
+    }
+
+    #timerValue.warning {
+      color: #fbbf24;
+      animation: timerBlink 0.5s infinite;
+    }
+
+    @keyframes timerBlink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    #displayText {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 32px;
+      text-align: center;
+      display: none;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 30px 50px;
+      border-radius: 15px;
+      border: 4px solid white;
+      z-index: 10;
+      animation: fadeIn 0.5s;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translate(-50%, -60%); }
+      to { opacity: 1; transform: translate(-50%, -50%); }
+    }
+
+    #controls {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 10px;
+      text-align: center;
+      max-width: 90%;
+    }
+
+    #restartBtn {
+      display: none;
+      position: absolute;
+      bottom: 40%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 16px;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s;
+      z-index: 11;
+    }
+
+    #restartBtn:hover {
+      transform: translateX(-50%) scale(1.1);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    @media (max-width: 768px) {
+      canvas {
+        max-width: 100%;
+        height: auto;
+      }
+
+      #ui {
+        padding: 10px;
+        gap: 10px;
+      }
+
+      .playerName {
+        font-size: 8px;
+      }
+
+      .healthBarBg {
+        height: 20px;
+        border: 2px solid white;
+      }
+
+      #timer {
+        min-width: 60px;
+        height: 50px;
+        border: 2px solid white;
+      }
+
+      #timer span {
+        font-size: 8px;
+      }
+
+      #timerValue {
+        font-size: 16px;
+      }
+
+      #displayText {
+        font-size: 20px;
+        padding: 20px 30px;
+      }
+
+      #controls {
+        font-size: 8px;
+        padding: 8px 15px;
+      }
+
+      #restartBtn {
+        font-size: 12px;
+        padding: 10px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="gameContainer">
+    <div id="ui">
+      <div class="healthBarContainer">
+        <div class="playerName">Player 1 (WASD + Space)</div>
+        <div class="healthBarBg">
+          <div id="playerHealth" class="healthBar"></div>
+        </div>
+      </div>
+
+      <div id="timer">
+        <span>TIME</span>
+        <div id="timerValue">60</div>
+      </div>
+
+      <div class="healthBarContainer">
+        <div class="playerName">Player 2 (Arrows + Down)</div>
+        <div class="healthBarBg">
+          <div id="enemyHealth" class="healthBar"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="displayText"></div>
+    <button id="restartBtn">Play Again</button>
+    
+    <canvas></canvas>
+
+    <div id="controls">
+      Player 1: WASD to move, SPACE to attack | Player 2: Arrows to move, DOWN to attack
+    </div>
+  </div>
+
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"
+    integrity="sha512-H6cPm97FAsgIKmlBA4s774vqoN24V5gSQL4yBTDOY2su2DeXZVhQPxFK4P6GPdnZqM9fg1G3cMv5wD7e6cFLZQ=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  ></script>
+  <script src="js/utils.js"></script>
+  <script src="js/classes.js"></script>
+  <script src="index.js"></script>
+</body>
+</html>

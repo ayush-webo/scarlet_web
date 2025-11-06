@@ -1,0 +1,255 @@
+@import url("https://fonts.googleapis.com/css?family=Nunito:400,700,900");
+
+*,
+*:before,
+*:after {
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  box-sizing: inherit;
+}
+
+html {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  font-size: 10px;
+}
+
+body {
+  padding: 20px;
+  margin: 0;
+  font-family: "Nunito", sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+h1 {
+  font-size: clamp(3rem, 6vw, 4.5rem);
+  line-height: 1.2;
+  margin: 0 0 2rem 0;
+  color: white;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.gameInfo {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.infoItem {
+  background: white;
+  padding: 15px 25px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  color: #3b1010;
+  margin: 0;
+  font-weight: 700;
+}
+
+.score {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  padding: 0 1rem;
+  font-weight: 900;
+}
+
+#timer {
+  background-color: #3498db;
+  color: white;
+  padding: 8px 20px;
+  border-radius: 50px;
+  transition: all 0.3s;
+}
+
+#highScore {
+  color: #f39c12;
+  font-size: 2rem;
+}
+
+.controls {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+#difficulty {
+  font-family: "Nunito", sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  padding: 12px 20px;
+  border: none;
+  background: white;
+  color: #3b1010;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s;
+}
+
+#difficulty:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+#difficulty:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.game {
+  width: min(600px, 90vw);
+  height: min(400px, 60vh);
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.hole {
+  flex: 1 0 33.33%;
+  overflow: hidden;
+  position: relative;
+}
+
+.hole:after {
+  display: block;
+  background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/1159990/dirt.svg")
+    bottom center no-repeat;
+  background-size: contain;
+  content: "";
+  width: 100%;
+  height: 70px;
+  position: absolute;
+  z-index: 2;
+  bottom: -30px;
+}
+
+.mole {
+  background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/1159990/mole.svg")
+    bottom center no-repeat;
+  background-size: 60%;
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  height: 100%;
+  transition: all 0.4s;
+  cursor: pointer;
+}
+
+.mole.bonked {
+  animation: bonk 0.2s ease-in-out;
+}
+
+@keyframes bonk {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.2) rotate(10deg); }
+}
+
+.hole.up .mole {
+  top: 0;
+}
+
+#start {
+  font-family: "Nunito", sans-serif;
+  display: inline-block;
+  text-decoration: none;
+  border: 0;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  font-size: 2rem;
+  font-weight: 700;
+  padding: 12px 30px;
+  cursor: pointer;
+  border-radius: 50px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s;
+}
+
+#start:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+#start:active {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .gameInfo {
+    gap: 10px;
+  }
+
+  .infoItem {
+    padding: 10px 15px;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+  }
+
+  #highScore {
+    font-size: 1.6rem;
+  }
+
+  .game {
+    height: 350px;
+  }
+
+  #difficulty,
+  #start {
+    font-size: 1.6rem;
+    padding: 10px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  .gameInfo {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .game {
+    height: 300px;
+  }
+
+  .mole {
+    background-size: 50%;
+  }
+}

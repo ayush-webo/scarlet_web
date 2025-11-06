@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Leaderboard</title>
+</head>
+<body>
+  <h2>Top Scores 🏆</h2>
+  <table border="1" cellpadding="6">
+    <thead>
+      <tr>
+        <th>Player</th>
+        <th>Game</th>
+        <th>Score</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody id="table-body">
+      <tr><td colspan="4">Loading...</td></tr>
+    </tbody>
+  </table>
+
+  <script type="module">
+    import { supabase } from './supabase.js'
+
+    async function loadLeaderboard() {
+      // Fetch top 10 scores with user email (if available)
+      const { data, error } = await supabase
+        .from('scores')
+        .select(`
+          score,
+          game_name,
+          created_at,
+          user_id,
+          auth.users(email)
+        `)
+        .order('score', { ascending: false })
+        .limit(10)
+
+      const tbody = document.getElementById('table-body')
+
+      if (error) {
+        console.error('Error fetching leaderboard:', error)
+        tbody.innerHTML = `<tr><td colspan="4">Failed to load scores.</td></tr>`
+        return
+      }
+
+      if (!data || data.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4">No scores yet!</td></tr>`
+        return
+      }
+
+      tbody.innerHTML = data.map(row => `
+        <tr>
+          <td>${row.auth?.users?.email || row.user_id.slice(0,8) + '...'}</td>
+          <td>${row.game_name}</td>
+          <td>${row.score}</td>
+          <td>${new Date(row.created_at).toLocaleString()}</td>
+        </tr>
+      `).join('')
+    }
+
+    loadLeaderboard()
+  </script>
+</body>
+</html>

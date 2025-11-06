@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Portal Dashboard</title>
+
+  <!-- Privacy-friendly analytics by Plausible -->
+  <script async src="https://plausible.io/js/pa-imfiECD26-qqovmoJBmXa.js"></script>
+  <script>
+    window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+    plausible.init()
+  </script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="stylesheet" href="dash.css">
+</head>
+<body>
+  <div class="navbar">
+    <div class="navbar-left">
+      <h1>🎮 Web Games</h1>
+    </div>
+    <div class="user-info">
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+        <span class="theme-icon">🌙</span>
+      </button>
+      <div class="user-avatar" id="userAvatar">U</div>
+      <span class="user-name" id="navUsername">Loading...</span>
+      <button class="logout-btn" onclick="logout()">Log Out</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <div id="loading" class="loading">Loading your games</div>
+    
+    <div id="content" style="display: none;">
+      <div class="welcome-section">
+        <h2>Welcome back, <span id="username"></span>! 👋</h2>
+        <p>Ready to play? Choose your adventure below.</p>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h3>Username</h3>
+          <p id="userDisplay"></p>
+        </div>
+        
+        <div class="stat-card">
+          <h3>Email</h3>
+          <p id="emailDisplay"></p>
+        </div>
+        
+        <div class="stat-card">
+          <h3>Member Since</h3>
+          <p id="createdDisplay"></p>
+        </div>
+        
+        <div class="stat-card">
+          <h3>Status</h3>
+          <p id="verifiedDisplay"></p>
+        </div>
+      </div>
+
+      <h2 class="section-title">Available Games</h2>
+  
+      <div class="games-grid">
+        <div class="game-card">
+          <div class="game-thumbnail"><img src="./thumbs/Samu.jpg" alt="Slasher King"></div>
+          <div class="game-info">
+            <h3>Slasher King</h3>
+            <p>Two player samurai style game to compete with friends.</p>
+            <a href="games/fighting-game/index.html" class="play-btn">Play Now →</a>
+          </div>
+        </div>
+
+        <div class="game-card">
+          <div class="game-thumbnail"><img src="./thumbs/tic.png" alt="tic tac toe" id="ticimg"></div>
+          <div class="game-info">
+            <h3>tic tac toe</h3>
+            <p>Tic tac toe x/o play with friends or ai!.</p>
+            <a href="games/Tic-Tac-Toe/index.html" class="play-btn">Play Now →</a>
+          </div>
+        </div>
+
+        <div class="game-card">
+          <div class="game-thumbnail"><img src="./thumbs/mole.jpg" alt="Whack-a-Mole"></div>
+          <div class="game-info">
+            <h3>Whack-a-Mole</h3>
+            <p>Classic arcade fun! Click fast and score high in this timeless game.</p>
+            <a href="games/wahck/index.html" class="play-btn">Play Now →</a>
+          </div>
+        </div>
+
+        <div class="game-card">
+          <div class="game-thumbnail"><img src="./thumbs/Spaceship.jpg" alt="Space Defender"></div>
+          <div class="game-info">
+            <h3>Space Defender</h3>
+            <p>Defend your planet with a spaceship against invaders.</p>
+            <a href="games/space-invaders-deploy/index.html" class="play-btn">Play Now →</a>
+          </div>
+        </div>
+
+        <div class="game-card">
+          <div class="game-thumbnail"><img src="./thumbs/fruit.jpg" alt="Fruit Slicer"></div>
+          <div class="game-info">
+            <h3>Fruit Slicer</h3>
+            <p>Slice fruits with precision and test your reflexes.</p>
+            <a href="games/fruit_slicer/index.html" class="play-btn">Play Now →</a>
+          </div>
+        </div>
+
+        <div class="game-card">
+          <div class="game-thumbnail"><img src="./thumbs/car.jpg" alt="Car Racing"></div>
+          <div class="game-info">
+            <h3>Car Racing</h3>
+            <p>Experience high-speed racing action and compete for the best time.</p>
+            <a href="games/Car-Game/index.html" class="play-btn">Play Now →</a>
+          </div>
+        </div>
+
+        <div class="game-card">
+          <div class="game-thumbnail"><img src="./thumbs/tower.jpg" alt="Tower Defense"></div>
+          <div class="game-info">
+            <h3>Tower Defense</h3>
+            <p>Defend against zombies to protect your land and people.</p>
+            <a href="games/tower-defense/index.html" class="play-btn">Play Now →</a>
+          </div>
+        </div>
+
+        <div class="game-card">
+          <div class="game-thumbnail"><img src="thumbs/diablo.jpg" alt="Diablo RPG"></div>
+          <div class="game-info">
+            <h3>Diablo RPG</h3>
+            <p>Defeat enemies in epic RPG style combat and adventure.</p>
+            <a href="games/diablo-js/index.html" class="play-btn">Play Now →</a>
+          </div>
+        </div>
+
+        <div class="game-card">
+          <div class="game-thumbnail"><img src="./thumbs/Ball.jpg" alt="Pokemon Game"></div>
+          <div class="game-info">
+            <h3>Pokemon Adventure</h3>
+            <p>Pokemon styled game to explore and catch 'em all.</p>
+            <a href="games/pokemon-style-game/index.html" class="play-btn">Play Now →</a>
+          </div>
+        </div>
+
+        <div class="game-card">
+          <div class="game-thumbnail"><img src="./thumbs/fox.png" alt="Sunny Land Platformer"></div>
+          <div class="game-info">
+            <h3>Sunny Land Platformer</h3>
+            <p>A platformer game where you have fun with a fox.</p>
+            <a href="games/sunnyland-platformer/index.html" class="play-btn">Play Now →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Developer Note Section -->
+      <div class="dev-section">
+        <h2 class="section-title">Developer Note</h2>
+        <div class="dev-content">
+          <div class="dev-image-container">
+            <img src="./dev.jpg" alt="Developer" class="dev-image" id="devImage">
+          </div>
+          <div class="dev-text">
+            <p class="dev-intro">
+              Hey there, fellow gamers! 👾
+            </p>
+            <p>
+              This platform started as an experiment—an attempt to create smooth, lightweight games 
+              that anyone can open and play instantly. The goal is simple: fun without friction. 
+              No apps. No downloads. Just pure gameplay.
+            </p>
+            <p>
+              This platform will keep expanding with new features, new worlds, and new ideas.
+            </p>
+            <p class="dev-signature">
+              Happy Gaming! 🎮<br>
+              <span class="signature-line">- The Developer</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer">
+        <p>&copy; 2024 Web Games Portal. Built with ❤️ for gamers everywhere.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="dash.js"></script>
+</body>
+</html>
